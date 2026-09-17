@@ -8,7 +8,7 @@
 4. communicate a data comparison using clear and correctly labeled plots.
 
 #### A. VISAYAS COMMUNICATION DATAFRAME
-- Filters for examinees whose Hometown is `Visayas` and Track is `Communication`, displaying their `Name`, `Gender`, `Math`, `Electronics`, and calculated `Average` (mean of Math and Electronics).
+- Filters for examinees whose Hometown is `Visayas` and Track is `Communication`, displaying their `Name`, `Gender`, `Math`, `Electronics`, and calculated `Average` (mean of Math, Electronics, GEAS, and Communication).
 
 ```python
 VisComm = ECE_Board_Exam_2.loc[(ECE_Board_Exam_2['Hometown']=='Visayas')&
@@ -22,7 +22,7 @@ print("Number of rows in VisComm:", len(VisComm))
 ```
 
 #### B. VISAYAS FEMALE DATAFRAME 
-- Filters for female examinees from Visayas, calculating their Average score between GEAS and Electronics. Further filtering isolates students achieving an Average >= 60.
+- Filters for female examinees from Visayas, calculating their Average score. Further filtering isolates students achieving an Average >= 60.
   
 ```python
 VisFemale = ECE_Board_Exam_2.loc[
@@ -37,7 +37,7 @@ VisFemale_passed = VisFemale[VisFemale['Average'] >= 60]
 ```
 
 #### C. CATEGORY-AVERAGE VISUALIZATION
-- Calculates overall student averages across all four subjects (Math, Electronics, GEAS, Communication) and groups them by Track, Gender, and Hometown.
+- Calculates overall student averages and groups them by Track, Gender, and Hometown.
 
 ```python
 mean_track = ECE_Board_Exam_2.groupby('Track')['Average'].mean().reset_index()
