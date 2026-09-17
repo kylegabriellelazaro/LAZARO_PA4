@@ -11,11 +11,12 @@
 - Filters for examinees whose Hometown is `Visayas` and Track is `Communication`, displaying their `Name`, `Gender`, `Math`, `Electronics`, and calculated `Average` (mean of Math and Electronics).
 
 ```python
-VisComm = ECE_Board_Exam_2.loc[
-    (ECE_Board_Exam_2['Hometown'] == 'Visayas') & (ECE_Board_Exam_2['Track'] == 'Communication'),
-    ['Name', 'Gender', 'Math', 'Electronics']
-]
-VisComm['Average'] = VisComm[['Math', 'Electronics']].mean(axis=1)
+VisComm = ECE_Board_Exam_2.loc[(ECE_Board_Exam_2['Hometown']=='Visayas')&
+    (ECE_Board_Exam_2['Track']=='Communication'),
+    ['Name', 'Gender', 'Math', 'Electronics','Average' ]
+    ]
+
+ VisComm['Average'] = ECE_Board_Exam_2 [['Math', 'Electronics', 'GEAS', 'Communication']].mean(axis=1) 
 
 print("Number of rows in VisComm:", len(VisComm))
 ```
@@ -29,7 +30,7 @@ VisFemale = ECE_Board_Exam_2.loc[
     ['Name', 'Track', 'GEAS', 'Electronics']
 ]
 
-VisFemale['Average'] = VisFemale[['GEAS', 'Electronics']].mean(axis=1)
+VisFemale['Average'] = ECE_Board_Exam_2[['GEAS', 'Electronics', 'Communication', 'Math']].mean(axis=1)
 
 # Filter for Average >= 60
 VisFemale_passed = VisFemale[VisFemale['Average'] >= 60]
@@ -39,41 +40,30 @@ VisFemale_passed = VisFemale[VisFemale['Average'] >= 60]
 - Calculates overall student averages across all four subjects (Math, Electronics, GEAS, Communication) and groups them by Track, Gender, and Hometown.
 
 ```python
-ECE_Board_Exam_2['Average'] = ECE_Board_Exam_2[
-    ['Math', 'Electronics', 'GEAS', 'Communication']
-].mean(axis=1)
-
 mean_track = ECE_Board_Exam_2.groupby('Track')['Average'].mean().reset_index()
 mean_gender = ECE_Board_Exam_2.groupby('Gender')['Average'].mean().reset_index()
 mean_hometown = ECE_Board_Exam_2.groupby('Hometown')['Average'].mean().reset_index()
 
-fig, axes = plt.subplots(1, 3, figsize=(15, 5), sharey=True)
+plt.figure(figsize = (15, 3))
 
-axes[0].bar(
-    mean_track["Track"],
-    mean_track["Average"],
-  
-)
-axes[0].set_title("Mean Average by Track")
-axes[0].set_xlabel("Track")
-axes[0].set_ylabel("Mean Board Exam Average")
+plt.subplot(1, 3, 1)
+bars1 = plt.bar(mean_track['Track'],mean_track['Average'])
+plt.title('Mean Average by Track', fontsize = 12, fontweight = 'bold')
+plt.xlabel('Track', fontsize = 15)
+plt.ylabel('Mean Average Grade', fontsize = 13)
+plt.ylim(0, 100)
 
-axes[1].bar(
-    mean_gender["Gender"],
-    mean_gender["Average"],
-   
-)
-axes[1].set_title("Mean Average by Gender")
-axes[1].set_xlabel("Gender")
+plt.subplot(1, 3, 2)
+bars1 = plt.bar(mean_gender['Gender'],mean_gender['Average'])
+plt.title('Mean Average by Gender', fontsize = 12, fontweight = 'bold')
+plt.xlabel('Gender', fontsize = 15)
+plt.ylim(0, 100)
 
-axes[2].bar(
-    mean_hometown["Hometown"],
-    mean_hometown["Average"],
-   
-)
-
-axes[2].set_title("Mean Average by Hometown")
-axes[2].set_xlabel("Hometown")
+plt.subplot(1, 3, 3)
+bars1 = plt.bar(mean_hometown['Hometown'],mean_hometown['Average'])
+plt.title('Mean Average by Hometown', fontsize = 12, fontweight = 'bold')
+plt.xlabel('Hometown', fontsize = 15)
+plt.ylim(0, 100)
 
 plt.tight_layout()
 plt.show()
